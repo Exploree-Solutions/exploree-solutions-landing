@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -12,11 +13,11 @@ const Header = () => {
   const [isWaitlistOpen, setIsWaitlistOpen] = useState(false);
 
   const navLinks = [
-    { href: "#hero", label: "Home" },
-    { href: "#how-it-works", label: "How it Works" },
-    { href: "#who-we-help", label: "For Seekers" },
-    { href: "#who-we-help", label: "For Employers" },
-    { href: "#cta", label: "Contact" },
+    { key: "home", href: "#hero", label: "Home" },
+    { key: "how-it-works", href: "#how-it-works", label: "How it Works" },
+    { key: "for-seekers", href: "#who-we-help", label: "For Seekers" },
+    { key: "for-employers", href: "#who-we-help", label: "For Employers" },
+    { key: "contact", href: "#cta", label: "Contact" },
   ];
 
   return (
@@ -28,35 +29,39 @@ const Header = () => {
         className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-xl border-b border-border/50"
       >
         <div className="container mx-auto px-4">
-          <div className="flex items-center justify-between h-16 md:h-20">
+          <div className="flex items-center justify-between h-20 md:h-24">
             {/* Logo */}
             <motion.a
               href="/"
-              className="flex items-center gap-2"
+              className="flex items-center"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center relative overflow-hidden">
-                <motion.div
-                  className="absolute inset-0 bg-gradient-to-tr from-primary via-accent to-primary"
-                  animate={{
-                    backgroundPosition: ["0% 0%", "100% 100%", "0% 0%"],
-                  }}
-                  transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
-                  style={{ backgroundSize: "200% 200%" }}
-                />
-                <span className="text-primary-foreground font-bold text-xl relative z-10">E</span>
-              </div>
-              <span className="text-xl font-bold">
-                <span className="gradient-text">xploree</span>
-              </span>
+              {/* Light mode logo */}
+              <Image
+                src="/wite_mode_full_name_logo-removebg-preview.png"
+                alt="Exploree Solutions"
+                width={320}
+                height={80}
+                className="dark:hidden h-20 w-auto"
+                priority
+              />
+              {/* Dark mode logo */}
+              <Image
+                src="/dark_mode_full_name_logo-removebg-preview.png"
+                alt="Exploree Solutions"
+                width={320}
+                height={80}
+                className="hidden dark:block h-20 w-auto"
+                priority
+              />
             </motion.a>
 
             {/* Desktop Navigation */}
             <nav className="hidden md:flex items-center gap-8">
               {navLinks.map((link, index) => (
                 <motion.a
-                  key={link.href}
+                  key={link.key}
                   href={link.href}
                   className="text-muted-foreground hover:text-foreground transition-colors relative group"
                   initial={{ opacity: 0, y: -20 }}
@@ -127,7 +132,7 @@ const Header = () => {
                 <nav className="flex flex-col gap-4 py-4">
                   {navLinks.map((link, index) => (
                     <motion.a
-                      key={link.href}
+                      key={link.key}
                       href={link.href}
                       className="text-muted-foreground hover:text-foreground transition-colors py-2"
                       initial={{ x: -20, opacity: 0 }}
